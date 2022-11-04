@@ -1,6 +1,6 @@
 <script setup>
 
-import Sidebar from './components/Sidebar.vue';
+import Sidebar from './components/sidebar/Sidebar.vue';
 import Map from './components/Map.vue';
 </script>
 
