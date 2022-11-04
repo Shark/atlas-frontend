@@ -10,7 +10,7 @@ import Map from './components/Map.vue';
   <main>
     <div class="flex">
       <Sidebar></Sidebar>      
-      <Map></Map>      
+      <Map></Map>
     </div>
   </main>
 </template>
