@@ -41,6 +41,10 @@ onMounted(() => {
   <header></header>
 
   <main>
-    <div id="map"></div>
+    <div class="flex">
+      <div id="sidebar" class="w-[400px]">
+      </div>
+      <div id="map" class="flex-1"></div>
+    </div>
   </main>
 </template>
