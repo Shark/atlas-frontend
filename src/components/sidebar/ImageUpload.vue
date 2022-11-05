@@ -22,6 +22,7 @@
         type="file"
         class="image-upload--input"
         id="image-upload"
+        accept=".png"
         @change="onDrop"
       />
     </div>
