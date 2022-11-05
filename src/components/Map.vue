@@ -92,7 +92,7 @@ onMounted(() => {
 
   map.value.on('load', () => {
     map.value.on('click', function (e) {
-      if(!magicModeActive) {
+      if(!magicModeActive.value) {
         selectedPointStore.set(e.lngLat.lng, e.lngLat.lat)
       }
     })

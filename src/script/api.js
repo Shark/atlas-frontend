@@ -17,23 +17,40 @@ export default () => {
   const magicModeStore = useMagicMode();
   const magicModeResultStore = useMagicModeResult();
 
+  const url = new URL("http://localhost:3000/getSurroundingNodes")
+
   selectedPointStore.$subscribe((mutation, state) => {
     if (state.point !== null) {
-      delay(1000).then(() => {
-        const result = 'This is an example prompt';
-        generatedPromptStore.set(result)
-        generatedPromptStore.set({
-          styles: ["Photograph", "Oil Painting", "Modern Drawing", "Abstract Drawing"],
-          locations: [
-            { type: 'country', value: 'Germany' },
-            { type: 'city', value: 'Cologne' },
-          ],
-          features: [
-            { type: 'church', value: 'Cologne Cathedral' },
-            { type: 'restaurant', value: 'Steak House' },
-          ]
+      console.log('POINT')
+      fetch(url, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          location: {
+            longitude: state.point[0],
+            latitude: state.point[1],
+          }
         })
-      });
+      }).then((result) => {
+        console.log('RESULT! ', result)
+      })
+      // delay(1000).then(() => {
+      //   const result = 'This is an example prompt';
+      //   generatedPromptStore.set(result)
+      //   generatedPromptStore.set({
+      //     styles: ["Photograph", "Oil Painting", "Modern Drawing", "Abstract Drawing"],
+      //     locations: [
+      //       { type: 'country', value: 'Germany' },
+      //       { type: 'city', value: 'Cologne' },
+      //     ],
+      //     features: [
+      //       { type: 'church', value: 'Cologne Cathedral' },
+      //       { type: 'restaurant', value: 'Steak House' },
+      //     ]
+      //   })
+      // });
     }
   })
 
