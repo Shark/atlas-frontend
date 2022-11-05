@@ -82,7 +82,7 @@ const magicModeClicked = () => {
       </div>
 
       <div>
-        <button class="relative ml-4 bg-white rounded-2xl px-4 py-1 font-sans mt-4 font-semibold text-sm shadow-md hover:shadow-lg hover:bg-gray-100 pointer-events-auto" @click="magicModeActive = !magicModeActive">
+        <button class="relative ml-4 bg-white rounded-2xl px-4 py-1 font-sans mt-4 font-semibold text-sm shadow-md hover:shadow-lg hover:bg-gray-100 pointer-events-auto" @click="magicModeActive = !magicModeActive" v-if="magicModeActive || (!magicModeActive && !point)">
           <template v-if="magicModeActive">
             Disable Magic Mode!
           </template>
