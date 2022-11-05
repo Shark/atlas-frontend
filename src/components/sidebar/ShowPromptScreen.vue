@@ -30,7 +30,11 @@ const selectedFeatures = ref(
 );
 
 const generateButtonClicked = () => {
-  imageGenerationStarted.startGeneration();
+  imageGenerationStarted.startGeneration({
+    style: selectedStyle,
+    locations: selectedLocations,
+    features: selectedFeatures.value.filter(({selected}) => selected),
+  });
 };
 </script>
 

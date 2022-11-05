@@ -26,7 +26,7 @@ const screen = computed(() => {
   if (generatedImageStore.image !== null) {
     return ShowImageScreen;
   }
-  if (generationStartedStore.generationStarted) {
+  if (generationStartedStore.imageGenerationData) {
     return GeneratingImageScreen; // #4
   }
   return ShowPromptScreen; // #3

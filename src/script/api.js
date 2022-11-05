@@ -17,12 +17,9 @@ export default () => {
   const magicModeStore = useMagicMode();
   const magicModeResultStore = useMagicModeResult();
 
-  const url = new URL("http://localhost:3000/getSurroundingNodes")
-
   selectedPointStore.$subscribe((mutation, state) => {
     if (state.point !== null) {
-      console.log('POINT')
-      fetch(url, {
+      fetch(new URL("http://localhost:3000/getSurroundingNodes"), {
         headers: {
           'Content-Type': 'application/json'
         },
@@ -54,12 +51,27 @@ export default () => {
     }
   })
 
+  const generatePrompt = () => {
+
+  }
+
   imageGenerationStartedStore.$subscribe((mutation, state) => {
-    if (state.generationStarted) {
-      delay(1000).then(() => {
-        const image = 'https://i.pinimg.com/originals/6e/71/05/6e7105058a0d653a79c82fc35a8c5977.jpg'
-        generatedImageStore.set(image);
-      });
+    if (state.imageGenerationData) {
+      fetch(new URL("http://localhost:3000/requestOpenai"), {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          prompt: imageGenerationStartedStore.getPrompt()
+        })
+      }).then((response) => {
+        response.json().then((result) => {
+          const json = JSON.parse(result)
+
+          generatedImageStore.set(json.url);
+        })
+      })
     }
   })
 
