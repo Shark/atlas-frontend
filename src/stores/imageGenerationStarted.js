@@ -14,6 +14,7 @@ export default defineStore('imageGenerationStarted', () => {
 
   const getPrompt = () => {
     let string = `A ${imageGenerationData.value.style}`
+    string += imageGenerationData.value.description && imageGenerationData.value.description.length > 0 ? ` of a ${imageGenerationData.value.description}` : "";
     string = imageGenerationData.value.locations.reduce((previousValue, currentValue, currentIndex) => {
       return previousValue + ` in the ${currentValue.type} ${currentValue.name}`
     }, string)

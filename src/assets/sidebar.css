@@ -25,12 +25,16 @@
   @apply bg-red-300;
 }
 
+.sidebar--section-title.is-description {
+  @apply bg-fuchsia-300;
+}
+
 .sidebar--section-title.is-location {
-  @apply bg-violet-300;
+  @apply bg-teal-300;
 }
 
 .sidebar--section-title.is-feature {
-  @apply bg-green-300;
+  @apply bg-violet-300;
 }
 
 .sidebar--section-content {

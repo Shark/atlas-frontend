@@ -4,7 +4,7 @@ import { storeToRefs } from "pinia";
 import useGeneratedPrompt from "../../stores/generatedPrompt";
 import useImageGenerationStarted from "../../stores/imageGenerationStarted";
 import SelectableText from "./SelectableText.vue";
-import Prompt from '../Prompt.vue';
+import Prompt from "../Prompt.vue";
 import Button from "./Button.vue";
 
 const generatedPromptStore = useGeneratedPrompt();
@@ -21,6 +21,8 @@ const selectedLocations = ref(
   }))
 );
 
+const imageDescription = ref(prompt.value.description);
+
 const selectedFeatures = ref(
   prompt.value.features.map((feature) => ({
     type: feature.type,
@@ -31,9 +33,10 @@ const selectedFeatures = ref(
 
 const generateButtonClicked = () => {
   imageGenerationStarted.startGeneration({
+    description: imageDescription,
     style: selectedStyle,
     locations: selectedLocations,
-    features: selectedFeatures.value.filter(({selected}) => selected),
+    features: selectedFeatures.value.filter(({ selected }) => selected),
   });
 };
 </script>
@@ -45,7 +48,12 @@ const generateButtonClicked = () => {
       <div class="sidebar--section">
         <h2 class="sidebar--section-title">Your prompt:</h2>
         <div class="sidebar--section-content">
-          <Prompt :style="selectedStyle" :locations="selectedLocations" :features="selectedFeatures"></Prompt>
+          <Prompt
+            :description="imageDescription"
+            :style="selectedStyle"
+            :locations="selectedLocations"
+            :features="selectedFeatures"
+          ></Prompt>
         </div>
       </div>
 

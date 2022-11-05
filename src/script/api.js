@@ -4,6 +4,8 @@ import useImageGenerationStarted from '../stores/imageGenerationStarted'
 import useGeneratedImage from '../stores/generatedImage'
 import useMagicMode from '../stores/magicMode'
 import useMagicModeResult from '../stores/magicModeResult'
+import useImageStore from '../stores/imageStore'
+
 
 function delay(time) {
   return new Promise(resolve => setTimeout(resolve, time));
@@ -16,6 +18,7 @@ export default () => {
   const generatedImageStore = useGeneratedImage();
   const magicModeStore = useMagicMode();
   const magicModeResultStore = useMagicModeResult();
+  const imageStore = useImageStore();
 
   selectedPointStore.$subscribe((mutation, state) => {
     if (state.point !== null) {
@@ -43,6 +46,7 @@ export default () => {
             styles: ["Photograph", "Oil Painting", "Modern Drawing", "Abstract Drawing"],
             locations: json.locations,
             features: features,
+            description: generatedPromptStore.imageDescription
           })
 
         })
@@ -51,19 +55,20 @@ export default () => {
     }
   })
 
-  const generatePrompt = () => {
 
-  }
-
-  imageGenerationStartedStore.$subscribe((mutation, state) => {
+  imageGenerationStartedStore.$subscribe(async (mutation, state) => {
     if (state.imageGenerationData) {
+      const maskedImage = await imageStore.getMaskedImage();
+      const images = maskedImage ? {full: maskedImage,
+        masked: maskedImage} : undefined;
       fetch(new URL("http://localhost:3000/requestOpenai"), {
         headers: {
           'Content-Type': 'application/json'
         },
         method: 'POST',
         body: JSON.stringify({
-          prompt: imageGenerationStartedStore.getPrompt()
+          prompt: imageGenerationStartedStore.getPrompt(),
+          images
         })
       }).then((response) => {
         response.json().then((result) => {
