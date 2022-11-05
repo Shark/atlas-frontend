@@ -4,12 +4,14 @@ import { storeToRefs } from "pinia";
 import useSearchStore from "../stores/searchStore";
 import { onMounted, ref, computed } from "vue";
 import useSelectedPoint from "../stores/selectedPoint";
-import useMagicMode from "../stores/magicMode";
 import Search from "./sidebar/Search.vue";
+import useMagicMode from "../stores/magicMode";
+import useMagicModeResult from "../stores/magicModeResult";
 
 const searchStore = useSearchStore();
 const selectedPointStore = useSelectedPoint();
 const magicModeStore = useMagicMode();
+const magicModeResultStore = useMagicModeResult();
 
 const { point } = storeToRefs(selectedPointStore);
 const { bounds } = storeToRefs(magicModeStore);
@@ -63,11 +65,21 @@ searchStore.$subscribe((mutation, state) => {
   }
 });
 
+magicModeResultStore.$subscribe((mutation, state) => {
+  if (state.result) {
+    console.log("result");
+    const popup = new maplibregl.Popup()
+      .setLngLat(state.result[0].lngLat)
+      .setHTML("<h1>Hello World!</h1>")
+      .addTo(map.value);
+  }
+});
+
 onMounted(() => {
   map.value = new maplibregl.Map({
     container: "map",
     style: style,
-    center: [-74.5, 40], // starting position [lng, lat]
+    center: [6.956413, 50.9432175], // starting position [lng, lat]
     zoom: 9, // starting zoom
   });
 

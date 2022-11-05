@@ -3,6 +3,7 @@ import useGeneratedPrompt from '../stores/generatedPrompt'
 import useImageGenerationStarted from '../stores/imageGenerationStarted'
 import useGeneratedImage from '../stores/generatedImage'
 import useMagicMode from '../stores/magicMode'
+import useMagicModeResult from '../stores/magicModeResult'
 
 function delay(time) {
   return new Promise(resolve => setTimeout(resolve, time));
@@ -14,6 +15,7 @@ export default () => {
   const imageGenerationStartedStore = useImageGenerationStarted();
   const generatedImageStore = useGeneratedImage();
   const magicModeStore = useMagicMode();
+  const magicModeResultStore = useMagicModeResult();
 
   selectedPointStore.$subscribe((mutation, state) => {
     if (state.point !== null) {
@@ -47,7 +49,19 @@ export default () => {
   magicModeStore.$subscribe((mutation, state) => {
     if (state.bounds) {
       delay(1000).then(() => {
-        console.log(state);
+        const result = [{
+          lngLat: ['6.956413', '50.9432175'],
+          style: "Oil Painting",
+          locations: [
+            { type: 'country', value: 'Germany' },
+            { type: 'city', value: 'Cologne' },
+          ],
+          features: [
+            { type: 'church', value: 'Cologne Cathedral' },
+            { type: 'restaurant', value: 'Steak House' },
+          ]
+        }]
+        magicModeResultStore.set(result)
       });
     }
   })
