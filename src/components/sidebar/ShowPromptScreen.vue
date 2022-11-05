@@ -4,6 +4,7 @@ import { storeToRefs } from "pinia";
 import useGeneratedPrompt from "../../stores/generatedPrompt";
 import useImageGenerationStarted from "../../stores/imageGenerationStarted";
 import SelectableText from "./SelectableText.vue";
+import Prompt from '../Prompt.vue';
 import Button from "./Button.vue";
 
 const generatedPromptStore = useGeneratedPrompt();
@@ -40,24 +41,7 @@ const generateButtonClicked = () => {
       <div class="sidebar--section">
         <h2 class="sidebar--section-title">Your prompt:</h2>
         <div class="sidebar--section-content">
-          <div class="flex justify-center items-center flex-col">
-            <div class="inline leading-[30px] text-center" id="prompt">
-              <span class="bg-red-300">A {{ selectedStyle }}</span>
-              <template v-for="location in selectedLocations">
-                <span>&nbsp;</span>
-                <span v-if="location.selected" class="bg-violet-300">
-                  in the {{ location.type }} {{ location.name }}
-                </span>
-              </template>
-
-              <template v-for="feature in selectedFeatures">
-                <span>&nbsp;</span>
-                <span v-if="feature.selected" class="bg-green-300">
-                  with a {{ feature.type }}
-                </span>
-              </template>
-            </div>
-          </div>
+          <Prompt :style="selectedStyle" :locations="selectedLocations" :features="selectedFeatures"></Prompt>
         </div>
       </div>
 
