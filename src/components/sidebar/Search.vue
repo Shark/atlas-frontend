@@ -52,5 +52,6 @@ watch(text, () => searchStore.search(text.value));
   width: 100%;
   padding: 6px;
   margin-top: 8px;
+  cursor: pointer;
 }
 </style>
