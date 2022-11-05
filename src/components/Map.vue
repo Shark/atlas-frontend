@@ -5,6 +5,7 @@ import useSearchStore from "../stores/searchStore";
 import { onMounted, ref, computed } from "vue";
 import useSelectedPoint from "../stores/selectedPoint";
 import useMagicMode from "../stores/magicMode";
+import Search from "./sidebar/Search.vue";
 
 const searchStore = useSearchStore();
 const selectedPointStore = useSelectedPoint();
@@ -15,6 +16,7 @@ const { bounds } = storeToRefs(magicModeStore);
 const magicModeActive = computed(() => bounds.value !== null);
 
 const map = ref(null);
+const showSearch = ref(false);
 
 const style = {
   version: 8,
@@ -117,6 +119,19 @@ const magicModeClicked = () => {
           <template v-if="magicModeActive">Disable Magic Mode!</template>
           <template v-else>Enable Magic Mode!</template>
         </button>
+      </div>
+
+      <div
+        class="absolute flex flex-col ml-4 top-5 right-5 justify-end pointer-events-auto"
+        v-if="!point && !magicModeActive"
+      >
+        <button
+          @click="showSearch = !showSearch"
+          class="rounded-2xl ml-auto w-min px-4 py-1 font-sans font-semibold text-sm shadow-md bg-white hover:shadow-lg hover:bg-gray-100 pointer-events-auto"
+        >
+          Search
+        </button>
+        <Search v-if="showSearch" />
       </div>
     </div>
   </div>
