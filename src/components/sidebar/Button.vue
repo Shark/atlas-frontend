@@ -1,0 +1,40 @@
+<template>
+  <div type="button" class="button" :class="{ 'is-danger': isDanger }">
+    {{ label }}
+  </div>
+</template>
+
+<script setup>
+defineProps({
+  isDanger: Boolean,
+  label: String,
+});
+</script>
+
+<style>
+.button {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 2px solid lightgrey;
+}
+
+.button:hover {
+  @apply border-blue-500;
+  border-width: 2px;
+}
+
+.button:active,
+.button:focus {
+  @apply bg-blue-500;
+}
+
+.button.is-danger:hover {
+  @apply border-red-500;
+  border-width: 2px;
+}
+
+.button.is-danger:active,
+.button.is-danger:focus {
+  @apply bg-red-500;
+}
+</style>
