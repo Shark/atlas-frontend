@@ -24,7 +24,7 @@ export default () => {
 
   selectedPointStore.$subscribe((mutation, state) => {
     if (state.point !== null) {
-      fetch(new URL("http://localhost:3000/getSurroundingNodes"), {
+      fetch(new URL(`${import.meta.env.VITE_BASE}/getSurroundingNodes`), {
         headers: {
           'Content-Type': 'application/json'
         },
@@ -61,7 +61,7 @@ export default () => {
   currentlyGeneratingPromptStore.$subscribe((mutation, state) => {
     if (state.currentlyGenerating) {
       console.log(state.currentlyGenerating)
-      fetch(new URL("http://localhost:3000/getSurroundingNodes"), {
+      fetch(new URL(`${import.meta.env.VITE_BASE}/getSurroundingNodes`), {
         headers: {
           'Content-Type': 'application/json'
         },
@@ -86,7 +86,7 @@ export default () => {
       const maskedImage = await imageStore.getMaskedImage();
       const images = maskedImage ? {full: maskedImage,
         masked: maskedImage} : undefined;
-      fetch(new URL("http://localhost:3000/requestOpenai"), {
+      fetch(new URL(`${import.meta.env.VITE_BASE}/requestOpenai`), {
         headers: {
           'Content-Type': 'application/json'
         },
@@ -108,7 +108,7 @@ export default () => {
   magicModeStore.$subscribe((mutation, state) => {
     if (state.bounds) {
       console.log(state.bounds)
-      fetch(new URL("http://localhost:3000/getPointsByBoundingBox"), {
+      fetch(new URL(`${import.meta.env.VITE_BASE}/getPointsByBoundingBox`), {
         headers: {
           'Content-Type': 'application/json'
         },
