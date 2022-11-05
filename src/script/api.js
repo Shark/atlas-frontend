@@ -86,8 +86,20 @@ export default () => {
             { type: 'city', value: 'Cologne' },
           ],
           features: [
-            { type: 'church', value: 'Cologne Cathedral' },
-            { type: 'restaurant', value: 'Steak House' },
+            { type: 'church', name: 'Cologne Cathedral' },
+            { type: 'restaurant', name: 'Steak House' },
+          ]
+        },
+        {
+          lngLat: ['6.756413', '50.8432175'],
+          style: "Oil Painting",
+          locations: [
+            { type: 'country', value: 'Germany' },
+            { type: 'city', value: 'Cologne' },
+          ],
+          features: [
+            { type: 'church', name: 'Cologne Cathedral' },
+            { type: 'restaurant', name: 'Steak House' },
           ]
         }]
         magicModeResultStore.set(result)

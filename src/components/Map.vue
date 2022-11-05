@@ -6,6 +6,9 @@ import useSelectedPoint from '../stores/selectedPoint'
 import useMagicMode from '../stores/magicMode'
 import useMagicModeResult from '../stores/magicModeResult'
 import useSearchStore from "../stores/searchStore";
+import useImageGenrationStarted from '../stores/imageGenerationStarted'
+import useGeneratedImageStore from '../stores/generatedImage'
+
 import Search from "./sidebar/Search.vue";
 import Prompt from './Prompt.vue'
 import Button from './sidebar/Button.vue';
@@ -14,6 +17,8 @@ const searchStore = useSearchStore();
 const selectedPointStore = useSelectedPoint();
 const magicModeStore = useMagicMode();
 const magicModeResultStore = useMagicModeResult();
+const imageGenerationStarted = useImageGenrationStarted();
+const generatedImageStore = useGeneratedImageStore();
 
 const { point } = storeToRefs(selectedPointStore);
 const { bounds } = storeToRefs(magicModeStore);
@@ -69,16 +74,25 @@ searchStore.$subscribe((mutation, state) => {
   }
 });
 
+const popups = ref([])
+
 magicModeResultStore.$subscribe((mutation, state) => {
   if(state.result) {
-    console.log('result')
     nextTick(() => {
-      const popup = new maplibregl.Popup({closeOnClick: false})
-      .setLngLat(state.result[0].lngLat)
-      .setDOMContent(document.getElementById('popup-0'))
-      .addTo(map.value);
+      state.result.forEach((element, index) => {
+        popups.value.push(new maplibregl.Popup({closeOnClick: false})
+          .setLngLat(element.lngLat)
+          .setDOMContent(document.getElementById(`popup-${index}`))
+          .addTo(map.value));
+      })
     })
 
+  }
+  else {
+    popups.value.forEach((popup) => {
+      popup.remove();
+    })
+    popups.value = [];
   }
 });
 
@@ -102,6 +116,7 @@ onMounted(() => {
 const magicModeClicked = () => {
   if (magicModeStore.bounds) {
     magicModeStore.reset();
+    magicModeResultStore.reset();
   } else {
     magicModeStore.set(map.value.getBounds());
   }
@@ -118,9 +133,14 @@ const mapLocations = (locations) => {
 const mapFeatures = (features) => {
   return features.map((feature) => ({
     type: feature.type,
-    name: feature.value,
+    name: feature.name,
     selected: true,
   }))
+}
+
+const startMagicImageGeneration = (place) => {
+  generatedImageStore.reset();
+  imageGenerationStarted.imageGenerationData = {style: place.style, locations: mapLocations(place.locations), features: mapFeatures(place.features)}
 }
 </script>
 
@@ -134,6 +154,7 @@ const mapFeatures = (features) => {
             icon="fa-play"
             size="sm"
             class="border rounded-sm py-2 hover:border-blue-300 cursor-pointer w-[32px]"
+            @click="startMagicImageGeneration(place)"
           />
           <font-awesome-icon
             icon="fa-gear"
