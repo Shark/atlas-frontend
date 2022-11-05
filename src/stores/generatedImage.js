@@ -2,15 +2,15 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export default defineStore('generatedImage', () => {
-  const image = ref(null);
+  const images = ref([]);
 
-  const set = (newImage) => {
-    image.value = newImage;
+  const set = (newImages) => {
+    images.value = newImages;
   }
 
   const reset = () => {
-    image.value = null;
+    images.value = [];
   }
 
-  return { image, set, reset };
+  return { images, set, reset };
 })

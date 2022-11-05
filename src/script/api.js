@@ -74,7 +74,9 @@ export default () => {
         response.json().then((result) => {
           const json = JSON.parse(result)
 
-          generatedImageStore.set(json.url);
+          console.log(json.urls)
+
+          generatedImageStore.set(json.urls);
         })
       })
     }
