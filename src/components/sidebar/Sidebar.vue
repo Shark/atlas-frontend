@@ -17,17 +17,17 @@ const generationStartedStore = useGenerationStarted();
 const generatedImageStore = useGeneratedImage();
 
 const screen = computed(() => {
-  if (selectedPointStore.point === null) {
-    return WelcomeSidebarScreen; // #1
-  }
-  if (generatedPromptStore.prompt === null) {
-    return GeneratingPromptScreen; // #2
-  }
   if (generatedImageStore.image !== null) {
     return ShowImageScreen;
   }
   if (generationStartedStore.imageGenerationData) {
     return GeneratingImageScreen; // #4
+  }
+  if (selectedPointStore.point === null) {
+    return WelcomeSidebarScreen; // #1
+  }
+  if (generatedPromptStore.prompt === null) {
+    return GeneratingPromptScreen; // #2
   }
   return ShowPromptScreen; // #3
 });
