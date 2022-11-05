@@ -33,24 +33,24 @@ export default () => {
             latitude: state.point[1],
           }
         })
-      }).then((result) => {
-        console.log('RESULT! ', result)
+      }).then((response) => {
+        response.json().then((result) => {
+          const json = JSON.parse(result)
+
+          const features = json.features.filter(function(item, pos, self) {
+            if(pos === 0) return true;
+            return self[pos-1].distance !== item.distance;
+          })
+
+          generatedPromptStore.set({
+            styles: ["Photograph", "Oil Painting", "Modern Drawing", "Abstract Drawing"],
+            locations: json.locations,
+            features: features,
+          })
+
+        })
+
       })
-      // delay(1000).then(() => {
-      //   const result = 'This is an example prompt';
-      //   generatedPromptStore.set(result)
-      //   generatedPromptStore.set({
-      //     styles: ["Photograph", "Oil Painting", "Modern Drawing", "Abstract Drawing"],
-      //     locations: [
-      //       { type: 'country', value: 'Germany' },
-      //       { type: 'city', value: 'Cologne' },
-      //     ],
-      //     features: [
-      //       { type: 'church', value: 'Cologne Cathedral' },
-      //       { type: 'restaurant', value: 'Steak House' },
-      //     ]
-      //   })
-      // });
     }
   })
 

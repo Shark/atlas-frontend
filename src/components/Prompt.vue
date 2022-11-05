@@ -23,8 +23,11 @@ const props = defineProps({
 
       <template v-for="feature in features">
         <span>&nbsp;</span>
-        <span v-if="feature.selected" class="bg-green-300">
+        <span v-if="feature.selected && !feature.name" class="bg-green-300">
           with a {{ feature.type }}
+        </span>
+        <span v-else-if="feature.selected && feature.name" class="bg-green-300">
+          with {{ feature.name }}
         </span>
       </template>
     </div>

@@ -24,7 +24,7 @@ const selectedLocations = ref(
 const selectedFeatures = ref(
   prompt.value.features.map((feature) => ({
     type: feature.type,
-    name: feature.value,
+    name: feature.name,
     selected: false,
   }))
 );
@@ -35,9 +35,9 @@ const generateButtonClicked = () => {
 </script>
 
 <template>
-  <div class="sidebar">
+  <div class="sidebar max-h-screen">
     <h1 class="sidebar--header">Prompt Crafter</h1>
-    <div class="sidebar--content">
+    <div class="sidebar--content overflow-scroll">
       <div class="sidebar--section">
         <h2 class="sidebar--section-title">Your prompt:</h2>
         <div class="sidebar--section-content">
