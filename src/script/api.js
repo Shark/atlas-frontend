@@ -18,6 +18,17 @@ export default () => {
       delay(1000).then(() => {
         const result = 'This is an example prompt';
         generatedPromptStore.set(result)
+        generatedPromptStore.set({
+          styles: ["Photograph", "Oil Painting", "Modern Drawing", "Abstract Drawing"],
+          locations: [
+            { type: 'country', value: 'Germany' },
+            { type: 'city', value: 'Cologne' },
+          ],
+          features: [
+            { type: 'church', value: 'Cologne Cathedral' },
+            { type: 'restaurant', value: 'Steak House' },
+          ]
+        })
       });
     }
   })

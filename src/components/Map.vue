@@ -67,7 +67,7 @@ onMounted(() => {
     'pointer-events-none opacity-70': point
   }">
     <div style="position: absolute; left: 50%;" class="z-10 absolute left-[50%]" v-if="!point">
-      <div class="left-[-50%] relative bg-white rounded-2xl px-4 py-1 font-sans mt-4 font-semibold pointer-events-none select-none">
+      <div class="left-[-50%] relative bg-white rounded-2xl px-4 py-1 font-sans mt-4 font-semibold pointer-events-none select-none shadow-md">
         Select a point on the map to get started...
       </div>
     </div>

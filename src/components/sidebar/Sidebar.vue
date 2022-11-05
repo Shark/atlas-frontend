@@ -34,7 +34,7 @@ const screen = computed(() => {
 </script>
 
 <template>
-  <div id="sidebar" class="w-[400px]">
+  <div id="sidebar" class="w-[400px] shadow-sm">
     <component :is="screen"></component>
   </div>
 </template>
