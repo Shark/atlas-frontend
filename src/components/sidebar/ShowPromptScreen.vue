@@ -6,6 +6,10 @@ import useImageGenerationStarted from "../../stores/imageGenerationStarted";
 import SelectableText from "./SelectableText.vue";
 import Prompt from "../Prompt.vue";
 import Button from "./Button.vue";
+import useImageStore from "../../stores/imageStore";
+
+const imageStore = useImageStore();
+const { imageDescription } = storeToRefs(imageStore);
 
 const generatedPromptStore = useGeneratedPrompt();
 const imageGenerationStarted = useImageGenerationStarted();
@@ -20,8 +24,6 @@ const selectedLocations = ref(
     selected: location.selected || false,
   }))
 );
-
-const imageDescription = ref(prompt.value.description);
 
 const selectedFeatures = ref(
   prompt.value.features.map((feature) => ({

@@ -33,10 +33,10 @@
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import ImageUpload from "./ImageUpload.vue";
-import useGeneratedPrompt from "../../stores/generatedPrompt";
+import useImageStore from "../../stores/imageStore";
 
-const generatedPromptStore = useGeneratedPrompt();
-const { imageDescription } = storeToRefs(generatedPromptStore);
+const imageStore = useImageStore();
+const { imageDescription } = storeToRefs(imageStore);
 </script>
 
 <style>

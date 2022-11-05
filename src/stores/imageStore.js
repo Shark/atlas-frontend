@@ -4,6 +4,8 @@ import { ref } from "vue";
 export default defineStore('imageStore', () => {
   const maskImageUrl = ref(null);
   const maskImageFile = ref(null);
+  const imageDescription = ref("");
+
 
   const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -20,7 +22,10 @@ const getMaskedImage = () => maskImageFile.value ? toBase64(maskImageFile.value)
   }
   const removeMaskImage = () => {
     maskImageUrl.value = null;
+    maskImageFile.value = null;
+    imageDescription = "";
+
   }
 
-  return { maskImageUrl, setMaskImage, removeMaskImage, getMaskedImage };
+  return { maskImageUrl,imageDescription, setMaskImage, removeMaskImage, getMaskedImage };
 })

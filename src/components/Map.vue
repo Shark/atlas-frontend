@@ -2,18 +2,19 @@
 import maplibregl from "maplibre-gl"; // or "const maplibregl = require('maplibre-gl');"
 import { storeToRefs } from "pinia";
 import { onMounted, ref, computed, nextTick } from "vue";
-import useSelectedPoint from '../stores/selectedPoint'
-import useMagicMode from '../stores/magicMode'
-import useMagicModeResult from '../stores/magicModeResult'
+import useSelectedPoint from "../stores/selectedPoint";
+import useMagicMode from "../stores/magicMode";
+import useMagicModeResult from "../stores/magicModeResult";
 import useSearchStore from "../stores/searchStore";
-import useImageGenrationStarted from '../stores/imageGenerationStarted'
-import useGeneratedImageStore from '../stores/generatedImage'
-import useCurrentlyGeneratingPrompt from '../stores/currentlyGeneratingPrompt'
-import useGeneratedPrompt from '../stores/generatedPrompt'
+import useCurrentlyGeneratingPrompt from "../stores/currentlyGeneratingPrompt";
+import useGeneratedPrompt from "../stores/generatedPrompt";
+import useImageGenrationStarted from "../stores/imageGenerationStarted";
+import useGeneratedImageStore from "../stores/generatedImage";
+import useImageStore from "../stores/imageStore";
 
 import Search from "./sidebar/Search.vue";
-import Prompt from './Prompt.vue'
-import Button from './sidebar/Button.vue';
+import Prompt from "./Prompt.vue";
+import Button from "./sidebar/Button.vue";
 
 const searchStore = useSearchStore();
 const selectedPointStore = useSelectedPoint();
@@ -24,11 +25,14 @@ const generatedImageStore = useGeneratedImageStore();
 const currentlyGeneratingPromptStore = useCurrentlyGeneratingPrompt();
 const generatedPromptStore = useGeneratedPrompt();
 
+const imageStore = useImageStore();
+const { imageDescription } = storeToRefs(imageStore);
+
 const { point } = storeToRefs(selectedPointStore);
 const { bounds } = storeToRefs(magicModeStore);
 const magicModeActive = computed(() => bounds.value !== null);
 
-const htmlPopup = ref(null)
+const htmlPopup = ref(null);
 
 const map = ref(null);
 const showSearch = ref(false);
@@ -78,24 +82,24 @@ searchStore.$subscribe((mutation, state) => {
   }
 });
 
-const popups = ref([])
+const popups = ref([]);
 
 magicModeResultStore.$subscribe((mutation, state) => {
-  if(state.result) {
+  if (state.result) {
     nextTick(() => {
       state.result.forEach((element, index) => {
-        popups.value.push(new maplibregl.Popup({closeOnClick: false})
-          .setLngLat(element.lngLat)
-          .setDOMContent(document.getElementById(`popup-${index}`))
-          .addTo(map.value));
-      })
-    })
-
-  }
-  else {
+        popups.value.push(
+          new maplibregl.Popup({ closeOnClick: false })
+            .setLngLat(element.lngLat)
+            .setDOMContent(document.getElementById(`popup-${index}`))
+            .addTo(map.value)
+        );
+      });
+    });
+  } else {
     popups.value.forEach((popup) => {
       popup.remove();
-    })
+    });
     popups.value = [];
   }
 });
@@ -108,13 +112,13 @@ onMounted(() => {
     zoom: 9, // starting zoom
   });
 
-  map.value.on('load', () => {
-    map.value.on('click', function (e) {
-      if(!magicModeActive.value) {
-        selectedPointStore.set(e.lngLat.lng, e.lngLat.lat)
+  map.value.on("load", () => {
+    map.value.on("click", function (e) {
+      if (!magicModeActive.value) {
+        selectedPointStore.set(e.lngLat.lng, e.lngLat.lat);
       }
-    })
-  })
+    });
+  });
 });
 
 const magicModeClicked = () => {
@@ -124,59 +128,77 @@ const magicModeClicked = () => {
   } else {
     magicModeStore.set(map.value.getBounds());
   }
-}
+};
 
 const mapLocations = (locations) => {
   return locations.map((location) => ({
     type: location.type,
     name: location.value,
     selected: true,
-  }))
-}
+  }));
+};
 
 const mapFeatures = (features) => {
-  return features.map((feature) => ({
-    type: feature.type,
-    name: feature.name,
-    selected: true,
-  })).slice(0, 2);
-}
+  return features
+    .map((feature) => ({
+      type: feature.type,
+      name: feature.name,
+      selected: true,
+    }))
+    .slice(0, 2);
+};
 
 const mapFeaturesNonSliced = (features) => {
   return features.map((feature, index) => ({
     type: feature.type,
     name: feature.name,
     selected: index <= 2,
-  }))
-}
+  }));
+};
 
 const startMagicImageGeneration = (place) => {
   generatedImageStore.reset();
-  imageGenerationStarted.imageGenerationData = {style: place.style, locations: mapLocations(place.locations), features: mapFeatures(place.features)}
-}
+  imageGenerationStarted.imageGenerationData = {
+    style: place.style,
+    locations: mapLocations(place.locations),
+    features: mapFeatures(place.features),
+    description: imageDescription.value,
+  };
+};
 
 const clickGeneratePrompt = (place) => {
-  currentlyGeneratingPromptStore.set(place)
-}
+  currentlyGeneratingPromptStore.set(place);
+};
 
 const startEdtingMagicPrompt = (place) => {
   generatedImageStore.reset();
   generatedPromptStore.reset();
   imageGenerationStarted.reset();
   generatedPromptStore.set({
-    styles: ["Photograph", "Oil Painting", "Modern Drawing", "Abstract Drawing"],
+    styles: [
+      "Photograph",
+      "Oil Painting",
+      "Modern Drawing",
+      "Abstract Drawing",
+    ],
     locations: mapLocations(place.locations),
     features: mapFeaturesNonSliced(place.features),
-  })
-}
+  });
+};
 </script>
 
 <template>
   <div class="hidden" v-if="magicModeResultStore.result">
-    <div v-for="place, index in magicModeResultStore.result">
+    <div v-for="(place, index) in magicModeResultStore.result">
       <div :id="`popup-${index}`" ref="htmlPopup" @click="popupclicked">
         <template v-if="place.features">
-          <Prompt :small="true" :style="place.style" :locations="mapLocations(place.locations)" :features="mapFeatures(place.features)"></Prompt>
+          <Prompt
+            :small="true"
+            :style="place.style"
+            :locations="mapLocations(place.locations)"
+            :features="mapFeatures(place.features)"
+            :description="imageDescription"
+          ></Prompt>
           <div class="flex justify-end gap-2">
             <font-awesome-icon
               icon="fa-play"
@@ -192,26 +214,33 @@ const startEdtingMagicPrompt = (place) => {
             />
           </div>
         </template>
-        <div v-else-if="currentlyGeneratingPromptStore.currentlyGenerating === place">
-          <font-awesome-icon
-          icon="fa-gear"
-          spin
-          size="2xl"
-          class="py-2 mx-6"
-        />
+        <div
+          v-else-if="
+            currentlyGeneratingPromptStore.currentlyGenerating === place
+          "
+        >
+          <font-awesome-icon icon="fa-gear" spin size="2xl" class="py-2 mx-6" />
         </div>
         <div v-else>
-          <Button :is-danger="false" label="Generate Prompt" @click="clickGeneratePrompt(place)" :disabled="currentlyGeneratingPromptStore.currentlyGenerating"/>
+          <Button
+            :is-danger="false"
+            label="Generate Prompt"
+            @click="clickGeneratePrompt(place)"
+            :disabled="currentlyGeneratingPromptStore.currentlyGenerating"
+          />
         </div>
       </div>
     </div>
-
   </div>
 
   <div class="grid w-full">
-    <div id="map" class="flex-1 relative grid-overlap" :class="{
-      'pointer-events-none opacity-70': point
-    }"></div>
+    <div
+      id="map"
+      class="flex-1 relative grid-overlap"
+      :class="{
+        'pointer-events-none opacity-70': point,
+      }"
+    ></div>
     <div class="grid-overlap z-10 relative pointer-events-none">
       <div
         style="position: absolute; left: 50%"

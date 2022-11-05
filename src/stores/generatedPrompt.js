@@ -3,7 +3,6 @@ import { ref } from "vue";
 
 export default defineStore('generatedPrompt', () => {
   const prompt = ref(null);
-  const imageDescription = ref("");
 
 
   const set = (newPrompt) => {
@@ -14,5 +13,5 @@ export default defineStore('generatedPrompt', () => {
     prompt.value = null;
   }
 
-  return { prompt, imageDescription, set, reset };
+  return { prompt, set, reset };
 })
