@@ -4,4 +4,11 @@
 
 html, body, main, #app, #map {
   height: 100vh;
+  font-family: "Roboto", Helvetica, Arial;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: local("Roboto"),
+   url(./fonts/Roboto/Roboto-Regular.ttf) format("truetype");
 }

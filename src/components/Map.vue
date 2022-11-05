@@ -1,11 +1,11 @@
 <script setup>
 import maplibregl from "maplibre-gl"; // or "const maplibregl = require('maplibre-gl');"
 import { onMounted, ref } from "vue";
-import useSelectedPoint from '../stores/selectedPoint'
+import useSelectedPoint from "../stores/selectedPoint";
+import useSearchStore from "../stores/searchStore";
 
 const selectedPointStore = useSelectedPoint();
-console.log(selectedPointStore)
-
+const searchStore = useSearchStore();
 const map = ref(null);
 
 const style = {
@@ -31,15 +31,26 @@ const style = {
 const marker = ref(null);
 
 selectedPointStore.$subscribe((mutation, state) => {
-  if(state) {
-    if(marker.value) {
+  if (state) {
+    if (marker.value) {
       marker.value.remove();
     }
-    marker.value = new maplibregl.Marker({color: "#FFFFFF"})
+    marker.value = new maplibregl.Marker({ color: "#FFFFFF" })
       .setLngLat(state.point)
       .addTo(map.value);
   }
-})
+});
+
+searchStore.$subscribe((mutation, state) => {
+  if (state.selectedOption) {
+    map.value.flyTo({
+      container: "map",
+      style: style,
+      center: state.selectedOption.center, // starting position [lng, lat]
+      zoom: 9, // starting zoom
+    });
+  }
+});
 
 onMounted(() => {
   map.value = new maplibregl.Map({
@@ -49,12 +60,12 @@ onMounted(() => {
     zoom: 9, // starting zoom
   });
 
-  map.value.on('load', () => {
-    map.value.on('click', function (e) {
-      console.log('I WAS CLICKED' , e)
-      selectedPointStore.set(e.lngLat.lng, e.lngLat.lat)
-    })
-  })
+  map.value.on("load", () => {
+    map.value.on("click", function (e) {
+      console.log("I WAS CLICKED", e);
+      selectedPointStore.set(e.lngLat.lng, e.lngLat.lat);
+    });
+  });
 });
 </script>
 
