@@ -4,7 +4,6 @@ import { onMounted, ref } from "vue";
 import useSelectedPoint from '../stores/selectedPoint'
 
 const selectedPointStore = useSelectedPoint();
-console.log(selectedPointStore)
 
 const map = ref(null);
 
@@ -51,7 +50,6 @@ onMounted(() => {
 
   map.value.on('load', () => {
     map.value.on('click', function (e) {
-      console.log('I WAS CLICKED' , e)
       selectedPointStore.set(e.lngLat.lng, e.lngLat.lat)
     })
   })
