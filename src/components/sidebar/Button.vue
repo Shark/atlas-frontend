@@ -1,11 +1,10 @@
 <template>
-  <div
-    type="button"
+  <button
     class="button"
     :class="{ 'is-danger': isDanger, 'is-fullsize': isFullsize }"
   >
     {{ label }}
-  </div>
+  </button>
 </template>
 
 <script setup>

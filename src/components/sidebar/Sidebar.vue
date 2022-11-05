@@ -4,7 +4,7 @@ import GeneratingPromptScreen from "./GeneratingPromptScreen.vue";
 import ShowPromptScreen from "./ShowPromptScreen.vue";
 import GeneratingImageScreen from "./GeneratingImageScreen.vue";
 import ShowImageScreen from "./ShowImageScreen.vue";
-import { ref, computed } from "vue";
+import { computed } from "vue";
 
 import useSelectedPoint from "../../stores/selectedPoint";
 import useGeneratedPrompt from "../../stores/generatedPrompt";

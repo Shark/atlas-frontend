@@ -5,20 +5,24 @@ import { onMounted, ref, computed, nextTick } from "vue";
 import useSelectedPoint from '../stores/selectedPoint'
 import useMagicMode from '../stores/magicMode'
 import useMagicModeResult from '../stores/magicModeResult'
+import useSearchStore from "../stores/searchStore";
+import Search from "./sidebar/Search.vue";
 import Prompt from './Prompt.vue'
 import Button from './sidebar/Button.vue';
 
+const searchStore = useSearchStore();
 const selectedPointStore = useSelectedPoint();
 const magicModeStore = useMagicMode();
 const magicModeResultStore = useMagicModeResult();
 
 const { point } = storeToRefs(selectedPointStore);
 const { bounds } = storeToRefs(magicModeStore);
-const magicModeActive = computed(() => bounds.value !== null)
+const magicModeActive = computed(() => bounds.value !== null);
 
 const htmlPopup = ref(null)
 
 const map = ref(null);
+const showSearch = ref(false);
 
 const style = {
   version: 8,
@@ -43,17 +47,27 @@ const style = {
 const marker = ref(null);
 
 selectedPointStore.$subscribe((mutation, state) => {
-  if(state) {
-    if(!state.point) {
+  if (state) {
+    if (!state.point) {
       marker.value.remove();
-    }
-    else {
-      marker.value = new maplibregl.Marker({color: "#FFFFFF"})
+    } else {
+      marker.value = new maplibregl.Marker({ color: "#FFFFFF" })
         .setLngLat(state.point)
         .addTo(map.value);
     }
   }
-})
+});
+
+searchStore.$subscribe((mutation, state) => {
+  if (state.selectedOption) {
+    map.value.flyTo({
+      container: "map",
+      style: style,
+      center: state.selectedOption.center, // starting position [lng, lat]
+      zoom: 9, // starting zoom
+    });
+  }
+});
 
 magicModeResultStore.$subscribe((mutation, state) => {
   if(state.result) {
@@ -66,7 +80,7 @@ magicModeResultStore.$subscribe((mutation, state) => {
     })
 
   }
-})
+});
 
 onMounted(() => {
   map.value = new maplibregl.Map({
@@ -86,11 +100,10 @@ onMounted(() => {
 });
 
 const magicModeClicked = () => {
-  if(magicModeStore.bounds) {
-    magicModeStore.reset()
-  }
-  else {
-    magicModeStore.set(map.value.getBounds())
+  if (magicModeStore.bounds) {
+    magicModeStore.reset();
+  } else {
+    magicModeStore.set(map.value.getBounds());
   }
 }
 
@@ -138,29 +151,44 @@ const mapFeatures = (features) => {
       'pointer-events-none opacity-70': point
     }"></div>
     <div class="grid-overlap z-10 relative pointer-events-none">
-      <div style="position: absolute; left: 50%;" v-if="!point && !magicModeActive">
-        <div class="relative left-[-50%] bg-white rounded-sm px-4 py-1 font-sans mt-4 font-semibold text-sm pointer-events-none select-none shadow-md text-center">
-          Select a point on the map to get started..<br>
+      <div
+        style="position: absolute; left: 50%"
+        v-if="!point && !magicModeActive"
+      >
+        <div
+          class="relative left-[-50%] bg-white rounded-sm px-4 py-1 font-sans mt-4 font-semibold text-sm pointer-events-none select-none shadow-md text-center"
+        >
+          Select a point on the map to get started..
+          <br />
           ...or enable magic mode
         </div>
       </div>
 
       <div>
-        <button class="relative ml-4 bg-white rounded-2xl px-4 py-1 font-sans mt-4 font-semibold text-sm shadow-md hover:shadow-lg hover:bg-gray-100 pointer-events-auto" @click="magicModeClicked" v-if="magicModeActive || (!magicModeActive && !point)">
-          <template v-if="magicModeActive">
-            Disable Magic Mode!
-          </template>
-          <template v-else>
-            Enable Magic Mode!
-          </template>
+        <button
+          class="relative ml-4 bg-white rounded-2xl px-4 py-1 font-sans mt-4 font-semibold text-sm shadow-md hover:shadow-lg hover:bg-gray-100 pointer-events-auto"
+          @click="magicModeClicked"
+          v-if="magicModeActive || (!magicModeActive && !point)"
+        >
+          <template v-if="magicModeActive">Disable Magic Mode!</template>
+          <template v-else>Enable Magic Mode!</template>
         </button>
       </div>
+
+      <div
+        class="absolute flex flex-col ml-4 top-5 right-5 justify-end pointer-events-auto"
+        v-if="!point && !magicModeActive"
+      >
+        <button
+          @click="showSearch = !showSearch"
+          class="rounded-2xl ml-auto w-min px-4 py-1 font-sans font-semibold text-sm shadow-md bg-white hover:shadow-lg hover:bg-gray-100 pointer-events-auto"
+        >
+          Search
+        </button>
+        <Search v-if="showSearch" />
+      </div>
     </div>
-
-    
-
   </div>
-
 </template>
 
 <style>
