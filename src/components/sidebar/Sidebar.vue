@@ -17,7 +17,7 @@ const generationStartedStore = useGenerationStarted();
 const generatedImageStore = useGeneratedImage();
 
 const screen = computed(() => {
-  if (generatedImageStore.image !== null) {
+  if (generatedImageStore.images.length > 0) {
     return ShowImageScreen;
   }
   if (generationStartedStore.imageGenerationData) {

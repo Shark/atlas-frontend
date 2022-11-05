@@ -16,10 +16,27 @@
     <h2 class="sidebar--section-title">Upload Image:</h2>
     <div class="sidebar--section-content"><ImageUpload /></div>
   </div>
+  <div class="sidebar--section">
+    <h2 class="sidebar--section-title is-description">Image Description</h2>
+    <div class="sidebar--section-content">
+      <input
+        class="w-full p-2"
+        type="text"
+        placeholder="Short Description"
+        v-model="imageDescription"
+      />
+    </div>
+  </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
+import { storeToRefs } from "pinia";
 import ImageUpload from "./ImageUpload.vue";
+import useGeneratedPrompt from "../../stores/generatedPrompt";
+
+const generatedPromptStore = useGeneratedPrompt();
+const { imageDescription } = storeToRefs(generatedPromptStore);
 </script>
 
 <style>
