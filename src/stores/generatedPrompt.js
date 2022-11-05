@@ -8,5 +8,9 @@ export default defineStore('generatedPrompt', () => {
     prompt.value = newPrompt;
   }
 
-  return { prompt, set };
+  const reset = () => {
+    prompt.value = null;
+  }
+
+  return { prompt, set, reset };
 })

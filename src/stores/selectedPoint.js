@@ -8,5 +8,9 @@ export default defineStore('selectedPoint', () => {
     point.value = [long, lat];
   }
 
-  return { point, set };
+  const reset = () => {
+    point.value = null;
+  }
+
+  return { point, set, reset };
 })

@@ -34,12 +34,14 @@ const marker = ref(null);
 
 selectedPointStore.$subscribe((mutation, state) => {
   if(state) {
-    if(marker.value) {
+    if(!state.point) {
       marker.value.remove();
     }
-    marker.value = new maplibregl.Marker({color: "#FFFFFF"})
-      .setLngLat(state.point)
-      .addTo(map.value);
+    else {
+      marker.value = new maplibregl.Marker({color: "#FFFFFF"})
+        .setLngLat(state.point)
+        .addTo(map.value);
+    }
   }
 })
 
