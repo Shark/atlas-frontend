@@ -26,9 +26,7 @@
       />
     </div>
     <div v-if="maskImageUrl">
-      <button class="image-upload--remove" @click="removeImage()">
-        Remove image
-      </button>
+      <Button :is-danger="false" label="Remove Image" @click="removeImage" />
     </div>
   </div>
 </template>
@@ -37,6 +35,7 @@
 import { ref } from "vue";
 import useImageStore from "../../stores/imageStore";
 import { storeToRefs } from "pinia";
+import Button from "./Button.vue";
 
 const imageStore = useImageStore();
 const { maskImageUrl } = storeToRefs(imageStore);
@@ -68,15 +67,19 @@ const removeImage = () => {
 }
 
 .image-upload--wrapper {
-  width: 300px;
-  height: 300px;
-  border: dashed 4px black;
-  background-color: lightgray;
+  @apply bg-gray-200;
+  width: 360px;
+  height: 360px;
+  border-radius: 16px;
   position: relative;
 }
 
-.image-upload.has-error {
-  border-color: red;
+.image-upload--wrapper:hover {
+  border: 4px solid black;
+}
+
+.image-upload--wrapper.has-error {
+  border: 4px solid red;
 }
 
 .image-upload--label {
@@ -105,16 +108,15 @@ const removeImage = () => {
 }
 
 .image-upload--image {
-  width: 300px;
-  height: 300px;
-  border: dashed 4px black;
+  @apply bg-gray-200;
+  width: 360px;
+  height: 360px;
+  border-radius: 16px;
   padding: 16px;
-  background-color: lightgray;
 }
 
-.image-upload--remove {
-  padding: 4px 8px;
-  border-radius: 4px;
-  border: 2px solid red;
+.image-upload--image:hover {
+  border: 4px solid black;
+  padding: 12px;
 }
 </style>
