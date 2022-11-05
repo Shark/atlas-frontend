@@ -2,6 +2,7 @@ import useSelectedPoint from '../stores/selectedPoint'
 import useGeneratedPrompt from '../stores/generatedPrompt'
 import useImageGenerationStarted from '../stores/imageGenerationStarted'
 import useGeneratedImage from '../stores/generatedImage'
+import useMagicMode from '../stores/magicMode'
 
 function delay(time) {
   return new Promise(resolve => setTimeout(resolve, time));
@@ -12,6 +13,7 @@ export default () => {
   const generatedPromptStore = useGeneratedPrompt();
   const imageGenerationStartedStore = useImageGenerationStarted();
   const generatedImageStore = useGeneratedImage();
+  const magicModeStore = useMagicMode();
 
   selectedPointStore.$subscribe((mutation, state) => {
     if (state.point !== null) {
@@ -38,6 +40,14 @@ export default () => {
       delay(1000).then(() => {
         const image = 'https://i.pinimg.com/originals/6e/71/05/6e7105058a0d653a79c82fc35a8c5977.jpg'
         generatedImageStore.set(image);
+      });
+    }
+  })
+
+  magicModeStore.$subscribe((mutation, state) => {
+    if (state.bounds) {
+      delay(1000).then(() => {
+        console.log(state);
       });
     }
   })

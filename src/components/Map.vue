@@ -1,7 +1,7 @@
 <script setup>
 import maplibregl from "maplibre-gl"; // or "const maplibregl = require('maplibre-gl');"
 import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import useSelectedPoint from '../stores/selectedPoint'
 import useMagicMode from '../stores/magicMode'
 
@@ -9,7 +9,8 @@ const selectedPointStore = useSelectedPoint();
 const magicModeStore = useMagicMode();
 
 const { point } = storeToRefs(selectedPointStore);
-const { magicModeActive } = storeToRefs(magicModeStore);
+const { bounds } = storeToRefs(magicModeStore);
+const magicModeActive = computed(() => bounds.value !== null)
 
 const map = ref(null);
 
@@ -64,7 +65,12 @@ onMounted(() => {
 });
 
 const magicModeClicked = () => {
-  magicModeActive.value = true
+  if(magicModeStore.bounds) {
+    magicModeStore.reset()
+  }
+  else {
+    magicModeStore.set(map.value.getBounds())
+  }
 }
 </script>
 
@@ -82,7 +88,7 @@ const magicModeClicked = () => {
       </div>
 
       <div>
-        <button class="relative ml-4 bg-white rounded-2xl px-4 py-1 font-sans mt-4 font-semibold text-sm shadow-md hover:shadow-lg hover:bg-gray-100 pointer-events-auto" @click="magicModeActive = !magicModeActive" v-if="magicModeActive || (!magicModeActive && !point)">
+        <button class="relative ml-4 bg-white rounded-2xl px-4 py-1 font-sans mt-4 font-semibold text-sm shadow-md hover:shadow-lg hover:bg-gray-100 pointer-events-auto" @click="magicModeClicked" v-if="magicModeActive || (!magicModeActive && !point)">
           <template v-if="magicModeActive">
             Disable Magic Mode!
           </template>

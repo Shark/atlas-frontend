@@ -2,15 +2,15 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export default defineStore('magicMode', () => {
-  const magicModeActive = ref(false);
+  const bounds = ref(null);
 
-  const enableMagicMode = () => {
-    magicModeActive.value = true;
+  const set = (newBounds) => {
+    bounds.value = newBounds;
   }
 
   const reset = () => {
-    magicModeActive.value = false;
+    bounds.value = null;
   }
 
-  return { magicModeActive, enableMagicMode, reset };
+  return { set, bounds, reset };
 })

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-export default defineStore('iamgeStore', () => {
+export default defineStore('imageStore', () => {
   const maskImageUrl = ref(null);
 
   const setMaskImage = (url) => {
