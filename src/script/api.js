@@ -1,6 +1,7 @@
 import useSelectedPoint from '../stores/selectedPoint'
 import useGeneratedPrompt from '../stores/generatedPrompt'
 import useImageGenerationStarted from '../stores/imageGenerationStarted'
+import useGeneratedImage from '../stores/generatedImage'
 
 function delay(time) {
   return new Promise(resolve => setTimeout(resolve, time));
@@ -10,6 +11,7 @@ export default () => {
   const selectedPointStore = useSelectedPoint();
   const generatedPromptStore = useGeneratedPrompt();
   const imageGenerationStartedStore = useImageGenerationStarted();
+  const generatedImageStore = useGeneratedImage();
 
   selectedPointStore.$subscribe((mutation, state) => {
     if (state.point !== null) {
@@ -23,7 +25,8 @@ export default () => {
   imageGenerationStartedStore.$subscribe((mutation, state) => {
     if (state.generationStarted) {
       delay(1000).then(() => {
-        
+        const image = 'https://i.pinimg.com/originals/6e/71/05/6e7105058a0d653a79c82fc35a8c5977.jpg'
+        generatedImageStore.set(image);
       });
     }
   })

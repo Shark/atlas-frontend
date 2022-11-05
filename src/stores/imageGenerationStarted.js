@@ -2,11 +2,15 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export default defineStore('imageGenerationStarted', () => {
-  const generationStarted = ref(null);
+  const generationStarted = ref(false);
 
   const startGeneration = () => {
     generationStarted.value = true;
   }
 
-  return { generationStarted, startGeneration };
+  const reset = () => {
+    generationStarted.value = false;
+  }
+
+  return { generationStarted, startGeneration, reset };
 })
