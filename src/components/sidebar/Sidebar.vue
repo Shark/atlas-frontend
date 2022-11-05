@@ -1,15 +1,15 @@
 <script setup>
-import WelcomeSidebarScreen from './WelcomeSidebarScreen.vue'
-import GeneratingPromptScreen from './GeneratingPromptScreen.vue'
-import ShowPromptScreen from './ShowPromptScreen.vue'
-import GeneratingImageScreen from './GeneratingImageScreen.vue'
-import ShowImageScreen from './ShowImageScreen.vue'
-import { ref, computed } from 'vue';
+import WelcomeSidebarScreen from "./WelcomeSidebarScreen.vue";
+import GeneratingPromptScreen from "./GeneratingPromptScreen.vue";
+import ShowPromptScreen from "./ShowPromptScreen.vue";
+import GeneratingImageScreen from "./GeneratingImageScreen.vue";
+import ShowImageScreen from "./ShowImageScreen.vue";
+import { ref, computed } from "vue";
 
-import useSelectedPoint from '../../stores/selectedPoint'
-import useGeneratedPrompt from '../../stores/generatedPrompt'
-import useGenerationStarted from '../../stores/imageGenerationStarted'
-import useGeneratedImage from '../../stores/generatedImage'
+import useSelectedPoint from "../../stores/selectedPoint";
+import useGeneratedPrompt from "../../stores/generatedPrompt";
+import useGenerationStarted from "../../stores/imageGenerationStarted";
+import useGeneratedImage from "../../stores/generatedImage";
 
 const selectedPointStore = useSelectedPoint();
 const generatedPromptStore = useGeneratedPrompt();
@@ -30,11 +30,11 @@ const screen = computed(() => {
     return GeneratingImageScreen; // #4
   }
   return ShowPromptScreen; // #3
-})
+});
 </script>
 
 <template>
-  <div id="sidebar" class="w-[400px] shadow-sm">
+  <div id="sidebar" class="w-[400px] shrink-0 shadow-sm">
     <component :is="screen"></component>
   </div>
 </template>
