@@ -660,6 +660,11 @@ isexe@^2.0.0:
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
 
+js-confetti@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/js-confetti/-/js-confetti-0.11.0.tgz#5eb56dc23cba54be98b71afdc69a28bec61880a2"
+  integrity sha512-Hc7I3VI4r4H0nq5q/oQK+JJwGoYRYVHK72fGk8E9Ay1dbh+aiZ9yl0yFp1K4oYeq7YFDQAndYChwqLPA3QWQuA==
+
 kdbush@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/kdbush/-/kdbush-3.0.0.tgz#f8484794d47004cc2d85ed3a79353dbe0abc2bf0"
@@ -1047,6 +1052,11 @@ vue-demi@*:
   version "0.13.11"
   resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.13.11.tgz"
   integrity sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==
+
+vue-upload-drop-images@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/vue-upload-drop-images/-/vue-upload-drop-images-1.0.7.tgz#25618e874fef37ddd55d29575c0a4e4d53d39068"
+  integrity sha512-O1G+iy0oTK9EaD6XHI5vjZQzdy+PeVCui7ty5Ja8ipw3bBWcY1o5+7JxofMZSXPQbr++Go0hWHtyb7xwQZOpQA==
 
 vue@^3.2.41:
   version "3.2.41"

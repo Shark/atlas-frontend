@@ -1,0 +1,42 @@
+.sidebar{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar--header {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 32px;
+}
+
+.sidebar--content{
+ flex: 1;
+}
+.sidebar--section-title {
+  @apply bg-blue-300;
+  font-size: 18px;
+  width: 100%;
+  padding: 4px 20px;
+  margin-bottom: 20px;
+}
+
+.sidebar--section-title.is-style {
+  @apply bg-red-300;
+}
+
+.sidebar--section-title.is-location {
+  @apply bg-violet-300;
+}
+
+.sidebar--section-title.is-feature {
+  @apply bg-green-300;
+}
+
+.sidebar--section-content {
+  width: 100%;
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+
+
