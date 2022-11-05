@@ -14,9 +14,10 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faEarthEurope } from '@fortawesome/free-solid-svg-icons'
+import { faEarthEurope, faImage } from '@fortawesome/free-solid-svg-icons'
 import { faFaceSmileBeam } from '@fortawesome/free-solid-svg-icons'
 
+library.add(faImage)
 library.add(faEarthEurope)
 library.add(faFaceSmileBeam)
 
