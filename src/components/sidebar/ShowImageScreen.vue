@@ -31,7 +31,7 @@ const retryClicked = () => {
             <img :src="selectedImage" alt="" class="w-[600px] rounded-md" />
           </div>
           <div class="flip-card-back">
-            <qrcode-vue :value="selectedImage" size="600" level="H" />
+            <qrcode-vue :value="selectedImage" :size="600" level="H" />
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@ const retryClicked = () => {
               <img :src="image" alt="" class="rounded-md" />
             </div>
             <div class="flip-card-back">
-              <qrcode-vue :value="image" size="200" level="H" />
+              <qrcode-vue :value="image" :size="200" level="H" />
             </div>
           </div>
         </div>
