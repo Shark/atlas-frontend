@@ -99,8 +99,6 @@ export default () => {
         response.json().then((result) => {
           const json = JSON.parse(result)
 
-          console.log(json.urls)
-
           generatedImageStore.set(json.urls);
         })
       })
