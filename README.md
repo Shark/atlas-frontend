@@ -1,29 +1,15 @@
-# atlas
+# With Love From 💌 - Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a tool which helps you to present you or your product in scenes all around the world! 🌍
 
-## Recommended IDE Setup
+This is how it works:
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+1. Upload a mask image of choice and describe what it shows in the text box below. You can also skip this step.
+2. Click a point on the map at which you want to show your content.
+3. Modify the prompt to your likings.
+4. Click generate and enjoy! 🎉
 
-## Customize configuration
+...or you can try our magic mode to get location suggestions!
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+<img width="1792" alt="grafik" src="https://user-images.githubusercontent.com/10633973/200147574-06691fae-eea4-42a6-b5ad-20008def52f3.png">
 
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
