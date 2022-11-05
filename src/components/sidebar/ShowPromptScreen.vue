@@ -16,8 +16,8 @@ const selectedStyle = ref(prompt.value.styles[0]);
 const selectedLocations = ref(
   prompt.value.locations.map((location) => ({
     type: location.type,
-    name: location.value,
-    selected: false,
+    name: location.name || location.value,
+    selected: location.selected || false,
   }))
 );
 
@@ -25,7 +25,7 @@ const selectedFeatures = ref(
   prompt.value.features.map((feature) => ({
     type: feature.type,
     name: feature.name,
-    selected: false,
+    selected: feature.selected || false,
   }))
 );
 

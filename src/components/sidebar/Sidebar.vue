@@ -23,13 +23,14 @@ const screen = computed(() => {
   if (generationStartedStore.imageGenerationData) {
     return GeneratingImageScreen; // #4
   }
-  if (selectedPointStore.point === null) {
-    return WelcomeSidebarScreen; // #1
+  if (generatedPromptStore.prompt !== null) {
+    return ShowPromptScreen; // #3
   }
-  if (generatedPromptStore.prompt === null) {
+  if (selectedPointStore.point !== null) {
     return GeneratingPromptScreen; // #2
   }
-  return ShowPromptScreen; // #3
+  return WelcomeSidebarScreen; // #2
+
 });
 </script>
 

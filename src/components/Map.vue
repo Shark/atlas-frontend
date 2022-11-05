@@ -8,6 +8,8 @@ import useMagicModeResult from '../stores/magicModeResult'
 import useSearchStore from "../stores/searchStore";
 import useImageGenrationStarted from '../stores/imageGenerationStarted'
 import useGeneratedImageStore from '../stores/generatedImage'
+import useCurrentlyGeneratingPrompt from '../stores/currentlyGeneratingPrompt'
+import useGeneratedPrompt from '../stores/generatedPrompt'
 
 import Search from "./sidebar/Search.vue";
 import Prompt from './Prompt.vue'
@@ -19,6 +21,8 @@ const magicModeStore = useMagicMode();
 const magicModeResultStore = useMagicModeResult();
 const imageGenerationStarted = useImageGenrationStarted();
 const generatedImageStore = useGeneratedImageStore();
+const currentlyGeneratingPromptStore = useCurrentlyGeneratingPrompt();
+const generatedPromptStore = useGeneratedPrompt();
 
 const { point } = storeToRefs(selectedPointStore);
 const { bounds } = storeToRefs(magicModeStore);
@@ -135,6 +139,14 @@ const mapFeatures = (features) => {
     type: feature.type,
     name: feature.name,
     selected: true,
+  })).slice(0, 2);
+}
+
+const mapFeaturesNonSliced = (features) => {
+  return features.map((feature, index) => ({
+    type: feature.type,
+    name: feature.name,
+    selected: index <= 2,
   }))
 }
 
@@ -142,25 +154,54 @@ const startMagicImageGeneration = (place) => {
   generatedImageStore.reset();
   imageGenerationStarted.imageGenerationData = {style: place.style, locations: mapLocations(place.locations), features: mapFeatures(place.features)}
 }
+
+const clickGeneratePrompt = (place) => {
+  currentlyGeneratingPromptStore.set(place)
+}
+
+const startEdtingMagicPrompt = (place) => {
+  generatedImageStore.reset();
+  generatedPromptStore.reset();
+  imageGenerationStarted.reset();
+  generatedPromptStore.set({
+    styles: ["Photograph", "Oil Painting", "Modern Drawing", "Abstract Drawing"],
+    locations: mapLocations(place.locations),
+    features: mapFeaturesNonSliced(place.features),
+  })
+}
 </script>
 
 <template>
   <div class="hidden" v-if="magicModeResultStore.result">
     <div v-for="place, index in magicModeResultStore.result">
       <div :id="`popup-${index}`" ref="htmlPopup" @click="popupclicked">
-        <Prompt :small="true" :style="place.style" :locations="mapLocations(place.locations)" :features="mapFeatures(place.features)"></Prompt>
-        <div class="flex justify-end gap-2">
+        <template v-if="place.features">
+          <Prompt :small="true" :style="place.style" :locations="mapLocations(place.locations)" :features="mapFeatures(place.features)"></Prompt>
+          <div class="flex justify-end gap-2">
+            <font-awesome-icon
+              icon="fa-play"
+              size="sm"
+              class="border rounded-sm py-2 hover:border-blue-300 cursor-pointer w-[32px]"
+              @click="startMagicImageGeneration(place)"
+            />
+            <font-awesome-icon
+              icon="fa-gear"
+              size="sm"
+              class="border rounded-sm py-2 hover:border-blue-300 cursor-pointer w-[32px]"
+              @click="startEdtingMagicPrompt(place)"
+            />
+          </div>
+        </template>
+        <div v-else-if="currentlyGeneratingPromptStore.currentlyGenerating === place">
           <font-awesome-icon
-            icon="fa-play"
-            size="sm"
-            class="border rounded-sm py-2 hover:border-blue-300 cursor-pointer w-[32px]"
-            @click="startMagicImageGeneration(place)"
-          />
-          <font-awesome-icon
-            icon="fa-gear"
-            size="sm"
-            class="border rounded-sm py-2 hover:border-blue-300 cursor-pointer w-[32px]"
-          />
+          icon="fa-gear"
+          spin
+          size="2xl"
+          class="py-2 mx-6"
+        />
+        </div>
+        <div v-else>
+          <Button :is-danger="false" label="Generate Prompt" @click="clickGeneratePrompt(place)" :disabled="currentlyGeneratingPromptStore.currentlyGenerating"/>
         </div>
       </div>
     </div>

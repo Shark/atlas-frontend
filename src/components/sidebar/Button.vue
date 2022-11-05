@@ -1,6 +1,6 @@
 <template>
   <button
-    class="button"
+    class="button disabled:bg-gray-200 disabled:border-gray-300"
     :class="{ 'is-danger': isDanger, 'is-fullsize': isFullsize }"
   >
     {{ label }}
@@ -31,11 +31,6 @@ defineProps({
 .button:hover {
   @apply border-blue-300;
   border-width: 2px;
-}
-
-.button:active,
-.button:focus {
-  @apply bg-blue-300;
 }
 
 .button.is-danger:hover {

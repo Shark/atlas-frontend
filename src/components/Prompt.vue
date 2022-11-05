@@ -15,14 +15,14 @@ const props = defineProps({
     <div class="inline  text-center" :class="{'leading-[20px]': small, 'leading-[30px]': !small}" :id="{'prompt': !small, 'prompt-small': small}">
       <span class="bg-red-300">A {{ style }}</span>
       <template v-for="location in locations">
-        <span>&nbsp;</span>
+        <span v-if="location.selected">&nbsp;</span>
         <span v-if="location.selected" class="bg-violet-300">
           in the {{ location.type }} {{ location.name }}
         </span>
       </template>
 
       <template v-for="feature in features">
-        <span>&nbsp;</span>
+        <span v-if="feature.selected">&nbsp;</span>
         <span v-if="feature.selected && !feature.name" class="bg-green-300">
           with a {{ feature.type }}
         </span>
