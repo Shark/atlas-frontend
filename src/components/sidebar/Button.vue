@@ -21,6 +21,7 @@ defineProps({
   padding: 12px 24px;
   border-radius: 4px;
   border: 2px solid lightgrey;
+  cursor: pointer;
 }
 
 .button.is-fullsize {

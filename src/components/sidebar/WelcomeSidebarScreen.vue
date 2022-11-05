@@ -1,5 +1,5 @@
 <template>
-  <h1 class="sidebar--header">Love from Paris &lt3</h1>
+  <h1 class="sidebar--header">With Love From _ &lt3</h1>
   <div class="sidebar--section">
     <h2 class="sidebar--section-title">Introduction</h2>
     <div class="sidebar--section-content">

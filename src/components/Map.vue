@@ -1,10 +1,12 @@
 <script setup>
 import maplibregl from "maplibre-gl"; // or "const maplibregl = require('maplibre-gl');"
 import { storeToRefs } from "pinia";
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref, computed, nextTick } from "vue";
 import useSelectedPoint from '../stores/selectedPoint'
 import useMagicMode from '../stores/magicMode'
 import useMagicModeResult from '../stores/magicModeResult'
+import Prompt from './Prompt.vue'
+import Button from './sidebar/Button.vue';
 
 const selectedPointStore = useSelectedPoint();
 const magicModeStore = useMagicMode();
@@ -13,6 +15,8 @@ const magicModeResultStore = useMagicModeResult();
 const { point } = storeToRefs(selectedPointStore);
 const { bounds } = storeToRefs(magicModeStore);
 const magicModeActive = computed(() => bounds.value !== null)
+
+const htmlPopup = ref(null)
 
 const map = ref(null);
 
@@ -54,10 +58,13 @@ selectedPointStore.$subscribe((mutation, state) => {
 magicModeResultStore.$subscribe((mutation, state) => {
   if(state.result) {
     console.log('result')
-    const popup = new maplibregl.Popup()
+    nextTick(() => {
+      const popup = new maplibregl.Popup({closeOnClick: false})
       .setLngLat(state.result[0].lngLat)
-      .setHTML("<h1>Hello World!</h1>")
+      .setDOMContent(document.getElementById('popup-0'))
       .addTo(map.value);
+    })
+
   }
 })
 
@@ -71,7 +78,9 @@ onMounted(() => {
 
   map.value.on('load', () => {
     map.value.on('click', function (e) {
-      selectedPointStore.set(e.lngLat.lng, e.lngLat.lat)
+      if(!magicModeActive) {
+        selectedPointStore.set(e.lngLat.lng, e.lngLat.lat)
+      }
     })
   })
 });
@@ -84,12 +93,49 @@ const magicModeClicked = () => {
     magicModeStore.set(map.value.getBounds())
   }
 }
+
+const mapLocations = (locations) => {
+  return locations.map((location) => ({
+    type: location.type,
+    name: location.value,
+    selected: true,
+  }))
+}
+
+const mapFeatures = (features) => {
+  return features.map((feature) => ({
+    type: feature.type,
+    name: feature.value,
+    selected: true,
+  }))
+}
 </script>
 
 <template>
+  <div class="hidden" v-if="magicModeResultStore.result">
+    <div v-for="place, index in magicModeResultStore.result">
+      <div :id="`popup-${index}`" ref="htmlPopup" @click="popupclicked">
+        <Prompt :small="true" :style="place.style" :locations="mapLocations(place.locations)" :features="mapFeatures(place.features)"></Prompt>
+        <div class="flex justify-end gap-2">
+          <font-awesome-icon
+            icon="fa-play"
+            size="sm"
+            class="border rounded-sm py-2 hover:border-blue-300 cursor-pointer w-[32px]"
+          />
+          <font-awesome-icon
+            icon="fa-gear"
+            size="sm"
+            class="border rounded-sm py-2 hover:border-blue-300 cursor-pointer w-[32px]"
+          />
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   <div class="grid w-full">
     <div id="map" class="flex-1 relative grid-overlap" :class="{
-      'pointer-events-none opacity-70': point || magicModeActive
+      'pointer-events-none opacity-70': point
     }"></div>
     <div class="grid-overlap z-10 relative pointer-events-none">
       <div style="position: absolute; left: 50%;" v-if="!point && !magicModeActive">

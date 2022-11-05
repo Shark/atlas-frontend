@@ -3,13 +3,16 @@ const props = defineProps({
   style: String,
   locations: Array,
   features: Array,
+  small: {
+    type: Boolean,
+    default: false,
+  }
 })
-
 </script>
 
 <template>
-  <div class="flex justify-center items-center flex-col">
-    <div class="inline leading-[30px] text-center" id="prompt">
+  <div class="flex justify-center items-center flex-col" :class="{ 'text-xs': small }">
+    <div class="inline  text-center" :class="{'leading-[20px]': small, 'leading-[30px]': !small}" :id="{'prompt': !small, 'prompt-small': small}">
       <span class="bg-red-300">A {{ style }}</span>
       <template v-for="location in locations">
         <span>&nbsp;</span>
@@ -27,3 +30,13 @@ const props = defineProps({
     </div>
   </div>
 </template>
+
+<style>
+#prompt span {
+  padding: 0.25rem 0.25rem 0.25rem 0.25rem;
+}
+
+#prompt-small span {
+  padding: 0.1rem 0.1rem 0.1rem 0.1rem;
+}
+</style>

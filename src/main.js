@@ -16,10 +16,14 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* import specific icons */
 import { faEarthEurope, faImage } from '@fortawesome/free-solid-svg-icons'
 import { faFaceSmileBeam } from '@fortawesome/free-solid-svg-icons'
+import { faPlay } from '@fortawesome/free-solid-svg-icons'
+import { faGear } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faImage)
 library.add(faEarthEurope)
 library.add(faFaceSmileBeam)
+library.add(faPlay)
+library.add(faGear)
 
 app.use(createPinia())
 
