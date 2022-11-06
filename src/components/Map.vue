@@ -257,11 +257,21 @@ const startEdtingMagicPrompt = (place) => {
 
       <div>
         <button
+          :disabled="magicModeActive && !magicModeResultStore.result"
           class="relative ml-4 bg-white rounded-2xl px-4 py-1 font-sans mt-4 font-semibold text-sm shadow-md hover:shadow-lg hover:bg-gray-100 pointer-events-auto"
           @click="magicModeClicked"
           v-if="magicModeActive || (!magicModeActive && !point)"
         >
-          <template v-if="magicModeActive">Disable Magic Mode!</template>
+          <template v-if="magicModeActive && !magicModeResultStore.result">
+            Enable Magic Mode!
+            <font-awesome-icon
+              icon="fa-gear"
+              size="sm"
+              class=""
+              spin
+            />
+          </template>
+          <template v-else-if="magicModeActive">Disable Magic Mode!</template>
           <template v-else>Enable Magic Mode!</template>
         </button>
       </div>
