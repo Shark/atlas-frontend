@@ -89,7 +89,7 @@ magicModeResultStore.$subscribe((mutation, state) => {
     nextTick(() => {
       state.result.forEach((element, index) => {
         popups.value.push(
-          new maplibregl.Popup({ closeOnClick: false })
+          new maplibregl.Popup({ closeOnClick: false, closeButton: false })
             .setLngLat(element.lngLat)
             .setDOMContent(document.getElementById(`popup-${index}`))
             .addTo(map.value)
@@ -152,7 +152,7 @@ const mapFeaturesNonSliced = (features) => {
   return features.map((feature, index) => ({
     type: feature.type,
     name: feature.name,
-    selected: index <= 2,
+    selected: index < 2,
   }));
 };
 

@@ -21,15 +21,15 @@ const selectedLocations = ref(
   prompt.value.locations.map((location) => ({
     type: location.type,
     name: location.name || location.value,
-    selected: location.selected || false,
+    selected: location.selected || true,
   }))
 );
 
 const selectedFeatures = ref(
-  prompt.value.features.map((feature) => ({
+  prompt.value.features.map((feature, index) => ({
     type: feature.type,
     name: feature.name,
-    selected: feature.selected || false,
+    selected: feature.selected || (index === 0),
   }))
 );
 
