@@ -6,7 +6,7 @@
     <div
       v-if="!maskImageUrl"
       class="image-upload--wrapper"
-      :class="{ 'has-error': !!error }"
+      :class="{ 'has-error': !!error, 'border-4 border-black border-dashed': isDropping }"
     >
       <label for="iamge-upload" class="image-upload--label">
         <font-awesome-icon
@@ -15,12 +15,15 @@
           :class="{ 'has-error': !!error }"
           size="9x"
         />
-        <span v-if="!error">Add Image</span>
+        <span v-if="!error">Drag or Upload Image</span>
         <span v-if="error">{{ error }}</span>
       </label>
       <input
         type="file"
         class="image-upload--input"
+        @dragenter="isDropping = true"
+        @dragleave="isDropping = false"
+        @dragend="isDropping = false"
         id="image-upload"
         accept=".png"
         @change="onDrop"
@@ -37,6 +40,8 @@ import { ref } from "vue";
 import useImageStore from "../../stores/imageStore";
 import { storeToRefs } from "pinia";
 import Button from "./Button.vue";
+
+const isDropping = ref(false)
 
 const imageStore = useImageStore();
 const { maskImageUrl } = storeToRefs(imageStore);
@@ -76,7 +81,7 @@ const removeImage = () => {
 }
 
 .image-upload--wrapper:hover {
-  border: 4px solid black;
+  border: 4px dashed black;
 }
 
 .image-upload--wrapper.has-error {
@@ -101,7 +106,8 @@ const removeImage = () => {
   width: 100%;
   height: 100%;
   filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
-  border: solid 4px black;
+  border: dashed 4px black;
+  cursor: pointer;
 }
 
 .image-upload--icon.has-error {
@@ -117,7 +123,7 @@ const removeImage = () => {
 }
 
 .image-upload--image:hover {
-  border: 4px solid black;
+  border: 4px dashed black;
   padding: 12px;
 }
 </style>

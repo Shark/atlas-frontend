@@ -23,7 +23,7 @@
     <h2 class="sidebar--section-title is-description">Image Description</h2>
     <div class="sidebar--section-content">
       <input
-        class="w-full p-2"
+        class="w-full p-2 border-2 border-solid border-gray-300"
         type="text"
         placeholder="Short Description"
         v-model="imageDescription"
