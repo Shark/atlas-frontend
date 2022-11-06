@@ -45,7 +45,7 @@ export default () => {
           })
 
           generatedPromptStore.set({
-            styles: ["Photograph", "Oil Painting", "Modern Drawing", "Abstract Drawing"],
+            styles: ["Photograph", "Oil Painting", "Hand Drawn Image", "3D Rendering",],
             locations: json.locations,
             features: features,
             description: generatedPromptStore.imageDescription

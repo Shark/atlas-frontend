@@ -178,8 +178,8 @@ const startEdtingMagicPrompt = (place) => {
     styles: [
       "Photograph",
       "Oil Painting",
-      "Modern Drawing",
-      "Abstract Drawing",
+      "Hand Drawn Image",
+      "3D Rendering",
     ],
     locations: mapLocations(place.locations),
     features: mapFeaturesNonSliced(place.features),

@@ -23,7 +23,6 @@ const getMaskedImage = () => maskImageFile.value ? toBase64(maskImageFile.value)
   const removeMaskImage = () => {
     maskImageUrl.value = null;
     maskImageFile.value = null;
-    imageDescription = "";
 
   }
 
