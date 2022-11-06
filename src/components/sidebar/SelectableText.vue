@@ -18,7 +18,7 @@
 <template>
   <div class="inline select-none cursor-pointer" @click="toggle">
     <span class="text-xl " :class="{ 'line-through' : !selected }">{{text}}</span>
-    <span class="ml-2 text-sm text-gray-400" :class="{ 'line-through' : !selected }">({{detail}})</span>
+    <span class="ml-2 text-sm text-gray-400" :class="{ 'line-through' : !selected }" v-if="detail">({{detail}})</span>
   </div>
   
 </template>
